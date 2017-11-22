@@ -12,15 +12,14 @@ bot.start((ctx) => {
 
 bot.hears(/должен|должна/i, context => {
     const isPresent = (name) => context.message.text.includes(name)
-    const from = who.findIndex(isPresent)
-    const to = whom.findIndex(isPresent)
+    const fromIndex = who.findIndex(isPresent)
+    const toIndex = whom.findIndex(isPresent)
     const amount = Number(context.message.text.match(/-\d+|\d+/)[0])
 
-    if (!(from !== -1 && to !== -1 && amount)) context.reply('Чё? Кто кому чего должен?')
-    else {
-        context.reply(`Такс, ${who[from]} торчит ${whom[to]} ${amount}₽? Так и запишем.`)
-        api.setValue(from, to, amount)
-    }
+    if (fromIndex !== -1 && toIndex !== -1 && amount) {
+        context.reply(`Такс, ${who[fromIndex]} торчит ${whom[toIndex]} ${amount}₽? Так и запишем.`)
+        api.setValue(fromIndex, toIndex, amount)
+    } else context.reply('Чё? Кто кому чего должен?')
 })
 
 bot.startPolling()
