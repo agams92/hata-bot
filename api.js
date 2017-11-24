@@ -6,6 +6,7 @@ class Matrix {
         this.path = './'
         this.filename = 'matrix.js'
         this.setValue = this.setValue.bind(this)
+        this.getValue = this.getValue.bind(this)
 
         this.init()
     }
@@ -27,6 +28,23 @@ class Matrix {
         }
         this.matrix = matrix
         this.saveMatrix()
+    }
+
+    normalizeMatrix() {
+        this.matrix.map((value, position) => {
+            const row = Math.floor(position / this.amount)
+            const column = position % this.amount
+            const mirrorPosition = column * 5 + row
+            const mirrorValue = this.matrix[mirrorPosition]
+            if (row === column) this.matrix[position] = 0
+            if (value > mirrorValue) {
+                this.matrix[mirrorPosition] = 0
+                this.matrix[position] = value - mirrorValue
+            } else {
+                this.matrix[position] = 0
+                this.matrix[mirrorPosition] = mirrorValue - value
+            }
+        })
     }
 
     saveMatrix() {
@@ -53,10 +71,16 @@ class Matrix {
     }
 
     setValue(whoIndex, whomIndex, amount) {
-        console.log(whoIndex, whomIndex, amount)
         const index = whoIndex * 5 + whomIndex
         this.matrix[index] = this.matrix[index] + amount
+        this.normalizeMatrix()
         this.saveMatrix()
+    }
+
+    getValue(whoIndex, whomIndex) {
+        this.normalizeMatrix()
+        const position = whoIndex * 5 + whomIndex
+        return this.matrix[position]
     }
 
     init() {
@@ -66,18 +90,19 @@ class Matrix {
 
 const matrix = new Matrix
 module.exports.setValue = matrix.setValue
+module.exports.getValue = matrix.getValue
 
 /*
         'Лене' 'Тёме' 'Кате' 'Андрею' 'Владу'
 
-'Лена'    0       0      0       0       0
+'Лена'    0       1      2       3       4
 
-'Тёма'    0       0      0       0       0
+'Тёма'    -       0      0       8       9
 
-'Катя'    0       0      0       0       0
+'Катя'    -       -      0      13       14
 
-'Андрей'  0       0      0       0       0
+'Андрей'  -       -      -       0       20
 
-'Влад'    0       0      0       0       0
+'Влад'    -       -      -       -       0
 
 */
