@@ -34,7 +34,7 @@ class Matrix {
         this.matrix.map((value, position) => {
             const row = Math.floor(position / this.amount)
             const column = position % this.amount
-            const mirrorPosition = column * 5 + row
+            const mirrorPosition = column * this.amount + row
             const mirrorValue = this.matrix[mirrorPosition]
             if (row === column) this.matrix[position] = 0
             if (value > mirrorValue) {
@@ -71,7 +71,7 @@ class Matrix {
     }
 
     setValue(whoIndex, whomIndex, amount) {
-        const index = whoIndex * 5 + whomIndex
+        const index = whoIndex * this.amount + whomIndex
         this.matrix[index] = this.matrix[index] + amount
         this.normalizeMatrix()
         this.saveMatrix()
@@ -79,7 +79,7 @@ class Matrix {
 
     getValue(whoIndex, whomIndex) {
         this.normalizeMatrix()
-        const position = whoIndex * 5 + whomIndex
+        const position = whoIndex * this.amount + whomIndex
         return this.matrix[position]
     }
 
