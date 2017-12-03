@@ -7,6 +7,7 @@ class Matrix {
         this.filename = 'matrix.js'
         this.setValue = this.setValue.bind(this)
         this.getValue = this.getValue.bind(this)
+        this.getRow = this.getRow.bind(this)
 
         this.init()
     }
@@ -83,6 +84,10 @@ class Matrix {
         return this.matrix[position]
     }
 
+    getRow(whoIndex) {
+        return this.matrix.slice(whoIndex * this.amount, this.amount * (whoIndex + this.amount))
+    }
+
     init() {
         this.doesMatrixExist() ? this.readMatrix() : this.createMatrix()
     }
@@ -91,6 +96,7 @@ class Matrix {
 const matrix = new Matrix
 module.exports.setValue = matrix.setValue
 module.exports.getValue = matrix.getValue
+module.exports.getRow = matrix.getRow
 
 /*
         'Лене' 'Тёме' 'Кате' 'Андрею' 'Владу'
