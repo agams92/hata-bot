@@ -50,8 +50,7 @@ bot.hears(/должен|должна|вернул|вернула|отдал|от
     api.setValue(fromIndex, toIndex, amount)
 })
 
-bot.hears(/чоч тама/i, context => {
-    context.reply('а чоа ващее тооо')
-})
+bot.hears(/чоч тама/i, context => context.reply('а чоа ващее тооо'))
+bot.hears(/алис/i, context => context.reply('что тебе нужно от меня, ебанько, блядь'))
 
 bot.startPolling()
